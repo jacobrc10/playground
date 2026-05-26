@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import reactLogo from './assets/react.svg'
 import viteLogo from './assets/vite.svg'
 import heroImg from './assets/hero.png'
@@ -6,6 +6,18 @@ import './App.css'
 
 function App() {
   const [count, setCount] = useState(0)
+
+  // fetch from api www.themealdb.com/api/json/v1/1/random.php
+  useEffect(() => {
+    fetch('https://www.themealdb.com/api/json/v1/1/random.php')
+      .then((response) => response.json())
+      .then((data) => {
+        console.log(data)
+      })
+      .catch((error) => {
+        console.error('Error fetching data:', error)
+      })
+  }, [])
 
   return (
     <>
