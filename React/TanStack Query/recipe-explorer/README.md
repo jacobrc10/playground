@@ -1,73 +1,28 @@
-# React + TypeScript + Vite
+# TanStack Query Assignment - Recipe Explorer
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+This project is meant to demonstrate usage of the TanStack Query React State Management Library
 
-Currently, two official plugins are available:
+## Functionality
+The following functions will be supported:
+- Retrieve data from a public API
+- Display lists of dynamically fetched content
+- Allow users to search, filter, or navigate through results
+- Show detailed information for selected items
+- Properly handle loading, empty, and error states
+- Re-fetch or refresh data when appropriate
+- Cache previously fetched data for improved responsiveness
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+## How to run
+1. Clone the project here: https://github.com/jacobrc10/playground.git
+2. Navigate to React/TanStack Query/recipe-explorer
+3. Run `npm install`
+4. Run `npm run dev`
+5. Go to http://localhost:5173/
 
-## React Compiler
+## External Resources
+This project utilizes a third party API to handle all of the data that we will be using for retrieving. 
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+This API is called TheMealDB and can be found here: https://www.themealdb.com/api.php
 
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
-
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
-
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
-
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+## Disclaimers
+This project is purely for educational and recreational purposes.
