@@ -15,6 +15,8 @@ function App() {
     },
   });
 
+  const [selectedRecipe, setSelectedRecipe] = useState(null);
+
   if (isLoading) {
     return <div>Loading...</div>;
   }
@@ -39,12 +41,21 @@ function App() {
           </p>
         </div>
         <div className="recipes">
-          {data?.meals.map((meal: any) => (
+          {!selectedRecipe && data?.meals.map((meal: any) => (
             <div key={meal.idMeal} className="recipe-card">
-              <img src={meal.strMealThumb} alt={meal.strMeal} height="200" />
-              <h3>{meal.strMeal}</h3>
+              <button onClick={() => setSelectedRecipe(meal)}>
+                <h3>{meal.strMeal}</h3>
+              </button>
             </div>
           ))}
+          {selectedRecipe && (
+            <div className="recipe-details">
+              <h2>{selectedRecipe.strMeal}</h2>
+              <img src={selectedRecipe.strMealThumb} alt={selectedRecipe.strMeal} width="300" />
+              <p>{selectedRecipe.strInstructions}</p>
+              <button onClick={() => setSelectedRecipe(null)}>Back to recipes</button>
+            </div>
+          )}
         </div>
       </section>
     </>
