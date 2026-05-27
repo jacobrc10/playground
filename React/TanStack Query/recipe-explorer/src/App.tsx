@@ -6,16 +6,20 @@ import heroImg from './assets/hero.png'
 import './App.css'
 
 function App() {
+  const [selectedRecipe, setSelectedRecipe] = useState(null);
+  const [queryLetter, setQueryLetter] = useState('a');
+
+
   const { data, isLoading, isError } = useQuery({
-    queryKey: ['allRecipesStartingWithA'],
+    queryKey: ['allRecipesStartingWith', queryLetter],
     queryFn: async () => {
-      const response = await fetch('https://www.themealdb.com/api/json/v1/1/search.php?f=a');
+      // add query f with the letter passed in as an argument to the query key
+      const response = await fetch(`https://www.themealdb.com/api/json/v1/1/search.php?f=` + queryLetter);
       await new Promise(resolve => setTimeout(resolve, 500));
       return response.json();
     },
   });
 
-  const [selectedRecipe, setSelectedRecipe] = useState(null);
 
   if (isLoading) {
     return <div>Loading...</div>;
@@ -40,14 +44,26 @@ function App() {
             All the tasty recipes in one location. Powered by React and TanStack Query.
           </p>
         </div>
+        <div className="search">
+          {['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'].map((letter) => (
+            <button
+              key={letter}
+              onClick={() => setQueryLetter(letter)}
+              disabled={queryLetter === letter}
+            >
+              {letter.toUpperCase()}
+            </button>
+          ))}
+        </div>
         <div className="recipes">
-          {!selectedRecipe && data?.meals.map((meal: any) => (
+          {!selectedRecipe && data?.meals?.map((meal: any) => (
             <div key={meal.idMeal} className="recipe-card">
               <button onClick={() => setSelectedRecipe(meal)}>
                 <h3>{meal.strMeal}</h3>
               </button>
             </div>
           ))}
+          {!selectedRecipe && !data?.meals && <p>No recipes found for letter "{queryLetter.toUpperCase()}".</p>}
           {selectedRecipe && (
             <div className="recipe-details">
               <h2>{selectedRecipe.strMeal}</h2>
