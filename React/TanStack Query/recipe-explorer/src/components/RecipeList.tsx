@@ -1,4 +1,3 @@
-import { useState } from "react";
 import Pagination from "./Pagination";
 import { RECIPES_PER_PAGE } from "../constants/constants";
 
@@ -9,8 +8,8 @@ function RecipeList({
   setPage,
 }: {
   page: number;
-  recipes: any[];
-  setSelectedRecipe: (recipe: any) => void;
+  recipes: Recipe[];
+  setSelectedRecipe: (recipe: Recipe) => void;
   setPage: (page: number) => void;
 }) {
   if (recipes.length === 0) {
@@ -25,7 +24,7 @@ function RecipeList({
 
   return (
     <div className="recipes">
-      {paginatedRecipes.map((meal: any) => (
+      {paginatedRecipes.map((meal: Recipe) => (
         <div key={meal.idMeal} className="recipe-card">
           <button onClick={() => setSelectedRecipe(meal)}>
             <h3>{meal.strMeal}</h3>
