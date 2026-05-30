@@ -1,20 +1,19 @@
 import { useEffect, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
-import reactLogo from "./assets/react.svg";
-import viteLogo from "./assets/vite.svg";
-import heroImg from "./assets/hero.png";
 import "./App.css";
 import LetterNav from "./components/LetterNav";
 import FilterList from "./components/FilterList";
 import RecipeList from "./components/RecipeList";
 import Recipe from "./components/Recipe";
 import Header from "./components/Header";
+import { API_BASE } from "./constants/constants";
 
 function App() {
   const [selectedRecipe, setSelectedRecipe] = useState(null);
   const [queryLetter, setQueryLetter] = useState("a");
   const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
   const [filteredRecipes, setFilteredRecipes] = useState<any[]>([]);
+  const [page, setPage] = useState(1);    
 
   const {
     data: recipeData,
@@ -24,7 +23,7 @@ function App() {
     queryKey: ["allRecipesStartingWith", queryLetter],
     queryFn: async () => {
       const response = await fetch(
-        `https://www.themealdb.com/api/json/v1/1/search.php?f=` + queryLetter,
+        `${API_BASE}/search.php?f=${queryLetter}`,
       );
       await new Promise((resolve) => setTimeout(resolve, 500));
       return response.json();
@@ -39,7 +38,7 @@ function App() {
     queryKey: ["categories"],
     queryFn: async () => {
       const response = await fetch(
-        `https://www.themealdb.com/api/json/v1/1/categories.php`,
+        `${API_BASE}/categories.php`,
       );
       await new Promise((resolve) => setTimeout(resolve, 500));
       return response.json();
@@ -103,6 +102,8 @@ function App() {
           <RecipeList
             recipes={filteredRecipes}
             setSelectedRecipe={setSelectedRecipe}
+            page={page}
+            setPage={setPage}
           />
         </div>
       </section>

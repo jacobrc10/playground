@@ -1,4 +1,4 @@
-import { letters } from '../constants/constants';
+import { LETTERS } from '../constants/constants';
 
 function LetterNav({
   queryLetter,
@@ -9,7 +9,7 @@ function LetterNav({
 }) {
   return (
     <div className="search">
-      {letters.map((letter) => (
+      {LETTERS.map((letter) => (
         <button
           key={letter}
           onClick={() => setQueryLetter(letter)}

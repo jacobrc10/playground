@@ -1,4 +1,4 @@
-export const letters = [
+export const LETTERS = [
   "a",
   "b",
   "c",
@@ -26,3 +26,7 @@ export const letters = [
   "y",
   "z",
 ];
+
+export const RECIPES_PER_PAGE = 10;
+
+export const API_BASE = "https://www.themealdb.com/api/json/v1/1";
