@@ -8,6 +8,7 @@ import LetterNav from "./components/LetterNav";
 import FilterList from "./components/FilterList";
 import RecipeList from "./components/RecipeList";
 import Recipe from "./components/Recipe";
+import Header from "./components/Header";
 
 function App() {
   const [selectedRecipe, setSelectedRecipe] = useState(null);
@@ -69,54 +70,40 @@ function App() {
     return <div>Error fetching recipes.</div>;
   }
 
+  if (selectedRecipe) {
+    return (
+      <>
+        <Header />
+        <Recipe
+          name={selectedRecipe.strMeal}
+          thumbnail={selectedRecipe.strMealThumb}
+          instructions={selectedRecipe.strInstructions}
+          unselectRecipe={() => setSelectedRecipe(null)}
+        />
+      </>
+    );
+  }
+
   return (
     <>
+      <Header />
       <section id="center">
-        <div className="hero">
-          <img src={heroImg} className="base" width="170" height="179" alt="" />
-          <img src={reactLogo} className="framework" alt="React logo" />
-          <img src={viteLogo} className="vite" alt="Vite logo" />
-        </div>
-        <div>
-          <h1>Recipe Explorer</h1>
-          <p>
-            All the tasty recipes in one location. Powered by React and TanStack
-            Query.
-          </p>
-        </div>
-        {!selectedRecipe && (
-          <LetterNav
-            queryLetter={queryLetter}
-            setQueryLetter={setQueryLetter}
-          />
-        )}
-        {!selectedRecipe && (
-          <FilterList
-            categories={categoryData}
-            categoriesLoading={categoriesLoading}
-            categoriesError={categoriesError}
-            selectedCategories={selectedCategories}
-            setSelectedCategories={setSelectedCategories}
-          />
-        )}
+        <LetterNav queryLetter={queryLetter} setQueryLetter={setQueryLetter} />
+        <FilterList
+          categories={categoryData}
+          categoriesLoading={categoriesLoading}
+          categoriesError={categoriesError}
+          selectedCategories={selectedCategories}
+          setSelectedCategories={setSelectedCategories}
+        />
         <div className="recipes">
-          {!selectedRecipe && !recipeData?.meals && (
+          {!recipeData?.meals && (
             <p>No recipes found for letter "{queryLetter.toUpperCase()}".</p>
           )}
-          {!selectedRecipe && (
-            <RecipeList
-              recipes={filteredRecipes}
-              setSelectedRecipe={setSelectedRecipe}
-            />
-          )}
-          {selectedRecipe && (
-            <Recipe
-              name={selectedRecipe.strMeal}
-              thumbnail={selectedRecipe.strMealThumb}
-              instructions={selectedRecipe.strInstructions}
-              unselectRecipe={() => setSelectedRecipe(null)}
-            />
-          )}
+          <RecipeList
+            recipes={filteredRecipes}
+            setSelectedRecipe={setSelectedRecipe}
+          />
         </div>
       </section>
     </>
