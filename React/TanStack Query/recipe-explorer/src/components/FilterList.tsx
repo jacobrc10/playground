@@ -5,7 +5,7 @@ function FilterList({
   selectedCategories,
   setSelectedCategories,
 }: {
-  categories: any;
+  categories: Category[] | undefined;
   categoriesLoading: boolean;
   categoriesError: boolean;
   selectedCategories: string[];
@@ -18,12 +18,11 @@ function FilterList({
   if (categoriesError) {
     return <p>Error fetching categories.</p>;
   }
-
   return (
     <div className="categories">
       <h2>Categories</h2>
       <ul>
-        {categories.categories.map((category: any) => (
+        {categories?.map((category: Category) => (
           <li key={category.idCategory}>
             <input
               type="checkbox"

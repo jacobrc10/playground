@@ -6,52 +6,48 @@ import FilterList from "./components/FilterList";
 import RecipeList from "./components/RecipeList";
 import Recipe from "./components/Recipe";
 import Header from "./components/Header";
-import { API_BASE } from "./constants/constants";
+import { fetchRecipesByLetter, fetchCategories } from "./api/recipes";
 
 function App() {
-  const [selectedRecipe, setSelectedRecipe] = useState(null);
+  const [selectedRecipe, setSelectedRecipe] = useState<Recipe | null>(null);
   const [queryLetter, setQueryLetter] = useState("a");
   const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
-  const [filteredRecipes, setFilteredRecipes] = useState<any[]>([]);
+  const [filteredRecipes, setFilteredRecipes] = useState<Recipe[]>([]);
   const [page, setPage] = useState(1);    
 
   const {
     data: recipeData,
     isLoading: recipesLoading,
     isError: recipesError,
-  } = useQuery({
+  }: {
+    data: Recipe[] | undefined;
+    isLoading: boolean;
+    isError: boolean;
+  } = useQuery<Recipe[]>({
     queryKey: ["allRecipesStartingWith", queryLetter],
-    queryFn: async () => {
-      const response = await fetch(
-        `${API_BASE}/search.php?f=${queryLetter}`,
-      );
-      await new Promise((resolve) => setTimeout(resolve, 500));
-      return response.json();
-    },
+    queryFn: () => fetchRecipesByLetter(queryLetter),
   });
 
   const {
     data: categoryData,
     isLoading: categoriesLoading,
     isError: categoriesError,
+  }: {
+    data: Category[] | undefined;
+    isLoading: boolean;
+    isError: boolean;
   } = useQuery({
     queryKey: ["categories"],
-    queryFn: async () => {
-      const response = await fetch(
-        `${API_BASE}/categories.php`,
-      );
-      await new Promise((resolve) => setTimeout(resolve, 500));
-      return response.json();
-    },
+    queryFn: fetchCategories,
   });
 
   useEffect(() => {
-    if (recipeData?.meals) {
+    if (recipeData && recipeData.length > 0) {
       if (selectedCategories.length === 0) {
-        setFilteredRecipes(recipeData.meals);
+        setFilteredRecipes(recipeData);
       } else {
         setFilteredRecipes(
-          recipeData.meals.filter((meal: any) =>
+          recipeData.filter((meal: Recipe) =>
             selectedCategories.includes(meal.strCategory),
           ),
         );
@@ -96,7 +92,7 @@ function App() {
           setSelectedCategories={setSelectedCategories}
         />
         <div className="recipes">
-          {!recipeData?.meals && (
+          {recipeData && recipeData.length === 0 && (
             <p>No recipes found for letter "{queryLetter.toUpperCase()}".</p>
           )}
           <RecipeList
